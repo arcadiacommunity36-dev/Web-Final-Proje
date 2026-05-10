@@ -1,0 +1,68 @@
+@model GameQuest.Models.Game
+
+@{
+    ViewData["Title"] = Model.Name;
+    var adverts = Model.Adverts?.OrderByDescending(a => a.CreatedAt).ToList() ?? new();
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <div class="text-muted small">@Model.Category?.Name</div>
+            <h1 class="h3 mb-1">@Model.Name</h1>
+            <div class="text-muted">Bu oyuna ait aktif ilanları aşağıda görebilirsin.</div>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-light" asp-action="Index">Geri</a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <div class="mb-4">
+            <img src="@Model.ImageUrl" class="img-fluid rounded-3 border" alt="@Model.Name" style="width: 100%; max-height: 360px; object-fit: cover;" />
+        </div>
+    }
+
+    <div class="card gq-surface">
+        <div class="card-header bg-transparent">
+            <div class="fw-semibold">Aktif ilanlar</div>
+        </div>
+        <div class="card-body">
+            @if (adverts.Count == 0)
+            {
+                <div class="text-muted">Şu an aktif ilan yok.</div>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var a in adverts)
+                    {
+                        <div class="list-group-item bg-transparent">
+                            <div class="d-flex justify-content-between align-items-start gap-2">
+                                <div>
+                                    <div class="fw-semibold">@a.Title</div>
+                                    <div class="small text-muted">
+                                        @a.User?.Username
+                                        @if (!string.IsNullOrWhiteSpace(a.RequiredRole) || !string.IsNullOrWhiteSpace(a.RequiredRank))
+                                        {
+                                            <span>—</span>
+                                            <span>@a.RequiredRole</span>
+                                            @if (!string.IsNullOrWhiteSpace(a.RequiredRank))
+                                            {
+                                                <span> / @a.RequiredRank</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <span class="badge text-bg-secondary">@a.CreatedAt.ToString("dd.MM.yyyy")</span>
+                            </div>
+                            <div class="mt-2 text-muted">@a.Description</div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+

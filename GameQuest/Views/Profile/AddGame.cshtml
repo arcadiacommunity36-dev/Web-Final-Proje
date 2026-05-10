@@ -1,0 +1,63 @@
+@model GameQuest.ViewModels.UserGameProfileEditViewModel
+
+@{
+    ViewData["Title"] = "Oyun Profili Ekle";
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">Oyun Profili Ekle</h1>
+            <div class="text-muted">Bir oyuna ait rank/rol bilgilerini kaydet.</div>
+        </div>
+        <a class="btn btn-outline-light" asp-action="Index">Geri</a>
+    </div>
+
+    <div class="card gq-surface">
+        <div class="card-body">
+            <form asp-action="AddGame" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label asp-for="GameId" class="form-label">Oyun</label>
+                    <select asp-for="GameId" class="form-select" asp-items="ViewBag.Games"></select>
+                    <span asp-validation-for="GameId" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="PreferredRole" class="form-label">Tercih edilen rol</label>
+                    <input asp-for="PreferredRole" class="form-control" placeholder="Duelist, Support, Jungle..." />
+                    <span asp-validation-for="PreferredRole" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Rank" class="form-label">Rank</label>
+                    <input asp-for="Rank" class="form-control" placeholder="Gold, Diamond..." />
+                    <span asp-validation-for="Rank" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="ExperienceLevel" class="form-label">Deneyim seviyesi (0-10)</label>
+                    <input asp-for="ExperienceLevel" class="form-control" type="number" min="0" max="10" />
+                    <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="HoursPlayed" class="form-label">Oynanan saat</label>
+                    <input asp-for="HoursPlayed" class="form-control" type="number" min="0" step="1" />
+                    <span asp-validation-for="HoursPlayed" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn btn-gq" type="submit">Kaydet</button>
+                    <a class="btn btn-outline-light" asp-action="Index">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

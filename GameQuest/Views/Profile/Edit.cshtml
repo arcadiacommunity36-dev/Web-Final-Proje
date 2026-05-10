@@ -1,0 +1,57 @@
+@model GameQuest.ViewModels.ProfileEditViewModel
+
+@{
+    ViewData["Title"] = "Profil Düzenle";
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">Profil Düzenle</h1>
+            <div class="text-muted">Bio, avatar ve temel bilgileri güncelle.</div>
+        </div>
+        <a class="btn btn-outline-light" asp-action="Index">Geri</a>
+    </div>
+
+    <div class="card gq-surface">
+        <div class="card-body">
+            <form asp-action="Edit" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label asp-for="Bio" class="form-label"></label>
+                    <textarea asp-for="Bio" class="form-control" rows="4" placeholder="Kısa bir bio..."></textarea>
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="AvatarUrl" class="form-label"></label>
+                    <input asp-for="AvatarUrl" class="form-control" placeholder="https://..." />
+                    <span asp-validation-for="AvatarUrl" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Country" class="form-label"></label>
+                    <input asp-for="Country" class="form-control" placeholder="Türkiye" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="TimeZone" class="form-label"></label>
+                    <input asp-for="TimeZone" class="form-control" placeholder="Europe/Istanbul" />
+                    <span asp-validation-for="TimeZone" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn btn-gq" type="submit">Kaydet</button>
+                    <a class="btn btn-outline-light" asp-action="Index">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

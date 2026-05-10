@@ -1,0 +1,63 @@
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">Admin Paneli</h1>
+            <div class="text-muted">Oyun, kategori ve genel istatistikler.</div>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-light" asp-controller="Home" asp-action="Index">Siteye dön</a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12 col-md-4">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="text-muted small">Kullanıcı (domain)</div>
+                    <div class="display-6 fw-semibold">@ViewBag.UsersCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="text-muted small">Oyun</div>
+                    <div class="display-6 fw-semibold">@ViewBag.GamesCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="text-muted small">Kategori</div>
+                    <div class="display-6 fw-semibold">@ViewBag.CategoriesCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="text-muted small">İlan</div>
+                    <div class="display-6 fw-semibold">@ViewBag.AdvertsCount</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="text-muted small">Başvuru</div>
+                    <div class="display-6 fw-semibold">@ViewBag.ApplicationsCount</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-gq" asp-action="Games">Oyunları yönet</a>
+        <a class="btn btn-outline-light" asp-action="Categories">Kategorileri yönet</a>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+@model GameQuest.Models.Advert
+
+@{
+    ViewData["Title"] = "İlan Detayı";
+    bool isOwner = (ViewBag.IsOwner as bool?) == true;
+    bool canApply = (ViewBag.CanApply as bool?) == true;
+    bool alreadyApplied = (ViewBag.AlreadyApplied as bool?) == true;
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <div class="text-muted small">@Model.Game?.Category?.Name • @Model.Game?.Name</div>
+            <h1 class="h3 mb-1">@Model.Title</h1>
+            <div class="text-muted">İlan sahibi: <span class="fw-semibold">@Model.User?.Username</span></div>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-light" asp-action="Index">Geri</a>
+            @if (canApply && !alreadyApplied)
+            {
+                <a class="btn btn-gq" asp-action="Apply" asp-route-id="@Model.Id">Başvur</a>
+            }
+            else if (alreadyApplied)
+            {
+                <span class="badge text-bg-secondary align-self-center">Başvuru yapıldı</span>
+            }
+            else if (!User.Identity?.IsAuthenticated == true)
+            {
+                <a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Login">Giriş yap</a>
+            }
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-8">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="fw-semibold mb-2">Açıklama</div>
+                    <div class="text-muted" style="white-space: pre-wrap;">@Model.Description</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card gq-surface">
+                <div class="card-body">
+                    <div class="fw-semibold mb-2">Kriterler</div>
+                    <div class="small text-muted">
+                        <div><span class="opacity-75">Rol:</span> <span class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.RequiredRole) ? Model.RequiredRole : "Belirtilmedi")</span></div>
+                        <div class="mt-1"><span class="opacity-75">Rank:</span> <span class="fw-semibold">@(!string.IsNullOrWhiteSpace(Model.RequiredRank) ? Model.RequiredRank : "Belirtilmedi")</span></div>
+                        <div class="mt-2"><span class="opacity-75">Tarih:</span> <span class="fw-semibold">@Model.CreatedAt.ToString("dd.MM.yyyy")</span></div>
+                        <div class="mt-1"><span class="opacity-75">Durum:</span> <span class="fw-semibold">@(Model.IsActive ? "Aktif" : "Pasif")</span></div>
+                    </div>
+
+                    @if (isOwner)
+                    {
+                        <div class="mt-3 alert alert-dark border mb-0">
+                            Bu ilan senin. Gelen başvuruları <a asp-controller="Applications" asp-action="Received">Başvurular</a> sayfasından görebilirsin.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

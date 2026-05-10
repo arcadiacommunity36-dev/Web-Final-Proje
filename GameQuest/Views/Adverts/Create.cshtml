@@ -1,0 +1,72 @@
+@model GameQuest.ViewModels.AdvertCreateViewModel
+
+@{
+    ViewData["Title"] = "İlan Aç";
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">İlan Aç</h1>
+            <div class="text-muted">Oyun seçip ilanını oluştur.</div>
+        </div>
+        <a class="btn btn-outline-light" asp-action="Index">Geri</a>
+    </div>
+
+    <div class="card gq-surface">
+        <div class="card-body">
+            <form asp-action="Create" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label asp-for="GameId" class="form-label">Oyun</label>
+                    <select asp-for="GameId" class="form-select" asp-items="ViewBag.Games"></select>
+                    <span asp-validation-for="GameId" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Title" class="form-label">Başlık</label>
+                    <input asp-for="Title" class="form-control" placeholder="Örn: Ranked takım arkadaşı aranıyor" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label">Açıklama</label>
+                    <textarea asp-for="Description" class="form-control" rows="5" placeholder="Kriterler, zaman, iletişim..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="AdvertType" class="form-label">İlan türü</label>
+                    <select asp-for="AdvertType" class="form-select">
+                        <option value="0">Genel</option>
+                        <option value="1">Ranked</option>
+                        <option value="2">Casual</option>
+                    </select>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="RequiredRole" class="form-label">Gereken rol</label>
+                    <input asp-for="RequiredRole" class="form-control" placeholder="Support, Jungle..." />
+                    <span asp-validation-for="RequiredRole" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-4">
+                    <label asp-for="RequiredRank" class="form-label">Gereken rank</label>
+                    <input asp-for="RequiredRank" class="form-control" placeholder="Gold, Diamond..." />
+                    <span asp-validation-for="RequiredRank" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn btn-gq" type="submit">Yayınla</button>
+                    <a class="btn btn-outline-light" asp-action="Index">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

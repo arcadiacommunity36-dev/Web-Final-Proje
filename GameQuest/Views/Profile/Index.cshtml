@@ -1,0 +1,100 @@
+@model GameQuest.ViewModels.ProfileIndexViewModel
+
+@{
+    ViewData["Title"] = "Profilim";
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">Profilim</h1>
+            <div class="text-muted">@Model.User.Username (@Model.User.Email)</div>
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-light" asp-action="Edit">Profili Düzenle</a>
+            <a class="btn btn-gq" asp-action="AddGame">Oyun Profili Ekle</a>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-lg-4">
+            <div class="card gq-surface h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle border" style="width: 72px; height: 72px; overflow: hidden;">
+                            @if (!string.IsNullOrWhiteSpace(Model.Profile.AvatarUrl))
+                            {
+                                <img src="@Model.Profile.AvatarUrl" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                    <span class="fw-semibold">@Model.User.Username.Substring(0, 1).ToUpperInvariant()</span>
+                                </div>
+                            }
+                        </div>
+                        <div>
+                            <div class="fw-semibold">@Model.User.Username</div>
+                            <div class="small text-muted">@Model.Profile.Country @(!string.IsNullOrWhiteSpace(Model.Profile.TimeZone) ? $"• {Model.Profile.TimeZone}" : "")</div>
+                        </div>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(Model.Profile.Bio))
+                    {
+                        <div class="mt-3 text-muted">@Model.Profile.Bio</div>
+                    }
+                    else
+                    {
+                        <div class="mt-3 text-muted">Henüz bir bio eklemedin.</div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-8">
+            <div class="card gq-surface">
+                <div class="card-header bg-transparent d-flex justify-content-between align-items-center">
+                    <div class="fw-semibold">Oyun profillerim</div>
+                    <span class="badge text-bg-secondary">@Model.GameProfiles.Count</span>
+                </div>
+                <div class="card-body">
+                    @if (Model.GameProfiles.Count == 0)
+                    {
+                        <div class="text-muted">Henüz oyun profili eklemedin.</div>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var gp in Model.GameProfiles)
+                            {
+                                <div class="list-group-item bg-transparent">
+                                    <div class="d-flex justify-content-between align-items-start gap-2">
+                                        <div>
+                                            <div class="fw-semibold">@gp.Game?.Name</div>
+                                            <div class="small text-muted">
+                                                @if (!string.IsNullOrWhiteSpace(gp.PreferredRole))
+                                                {
+                                                    <span>@gp.PreferredRole</span>
+                                                }
+                                                @if (!string.IsNullOrWhiteSpace(gp.Rank))
+                                                {
+                                                    <span> • @gp.Rank</span>
+                                                }
+                                                <span> • Seviye: @gp.ExperienceLevel</span>
+                                                @if (gp.HoursPlayed is not null)
+                                                {
+                                                    <span> • @gp.HoursPlayed saat</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-sm btn-outline-light" asp-action="EditGame" asp-route-id="@gp.Id">Düzenle</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

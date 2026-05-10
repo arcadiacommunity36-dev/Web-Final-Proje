@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="py-4">
+    <div class="p-4 p-md-5 rounded-3 border gq-surface">
+        <div class="row align-items-center g-4">
+            <div class="col-md-7">
+                <h1 class="display-5 fw-bold">GameQuest</h1>
+                <p class="lead mb-4">
+                    Ben bunu "oyuncu bulma" ve "takım kurma" mantığında bir platform gibi düşündüm.
+                    İlan açıyorsun, kriter koyuyorsun (rank/rol vs.), sonra başvurular geliyor.
+                </p>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-gq" asp-area="Identity" asp-page="/Account/Register">Hemen Kayıt Ol</a>
+                    <a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Login">Giriş Yap</a>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="rounded-3 p-3 gq-panel">
+                    <div class="small text-uppercase opacity-75">Hızlı özet</div>
+                    <div class="mt-2">
+                        <div class="fw-semibold">- İlanlar</div>
+                        <div class="fw-semibold">- Başvurular</div>
+                        <div class="fw-semibold">- Oyun / Kategori filtreleri</div>
+                        <div class="fw-semibold">- Profil + oyun profili</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
