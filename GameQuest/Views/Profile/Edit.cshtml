@@ -1,0 +1,75 @@
+@model GameQuest.ViewModels.ProfileEditViewModel
+
+@{
+    ViewData["Title"] = "Profil Düzenle";
+}
+
+<div class="py-4">
+    <!-- Page Header -->
+    <div class="gq-page-header mb-4">
+        <div class="d-flex align-items-start justify-content-between gap-3">
+            <div>
+                <h1 class="gq-page-title">
+                    <i class="bi bi-pencil-square me-2 text-neon-cyan"></i>Profil Düzenle
+                </h1>
+                <p class="gq-page-subtitle">Bio, avatar ve temel bilgileri güncelle.</p>
+            </div>
+            <a class="btn btn-outline-light" asp-action="Index">
+                <i class="bi bi-arrow-left me-1"></i>Geri
+            </a>
+        </div>
+    </div>
+
+    <div class="card gq-surface gq-animate-in">
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label asp-for="Bio" class="form-label">
+                        <i class="bi bi-chat-dots me-1 text-neon-cyan"></i>Bio
+                    </label>
+                    <textarea asp-for="Bio" class="form-control" rows="4" placeholder="Kısa bir bio..."></textarea>
+                    <span asp-validation-for="Bio" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="AvatarUrl" class="form-label">
+                        <i class="bi bi-image me-1 text-neon-purple"></i>Avatar URL
+                    </label>
+                    <input asp-for="AvatarUrl" class="form-control" placeholder="https://..." />
+                    <span asp-validation-for="AvatarUrl" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="Country" class="form-label">
+                        <i class="bi bi-geo-alt me-1 text-neon-cyan"></i>Ülke
+                    </label>
+                    <input asp-for="Country" class="form-control" placeholder="Türkiye" />
+                    <span asp-validation-for="Country" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label asp-for="TimeZone" class="form-label">
+                        <i class="bi bi-clock me-1 text-neon-purple"></i>Saat Dilimi
+                    </label>
+                    <input asp-for="TimeZone" class="form-control" placeholder="Europe/Istanbul" />
+                    <span asp-validation-for="TimeZone" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 d-flex gap-2 pt-2">
+                    <button class="btn btn-gq" type="submit">
+                        <i class="bi bi-check-circle me-1"></i>Kaydet
+                    </button>
+                    <a class="btn btn-outline-light" asp-action="Index">
+                        <i class="bi bi-x-circle me-1"></i>İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,101 @@
+@model List<GameQuest.Models.Game>
+
+@{
+    ViewData["Title"] = "Oyunlar";
+    var categories = ViewBag.Categories as List<GameQuest.Models.Category> ?? new();
+    string? q = ViewBag.Query as string;
+    int? selectedCategoryId = ViewBag.SelectedCategoryId as int?;
+}
+
+<div class="py-4">
+    <!-- Page Header -->
+    <div class="gq-page-header mb-4">
+        <h1 class="gq-page-title">
+            <i class="bi bi-controller me-2 text-neon-cyan"></i>Oyunlar
+        </h1>
+        <p class="gq-page-subtitle">Kategori seçerek filtreleyebilir, isimle arayabilirsin.</p>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="gq-filter-bar gq-surface mb-4 p-3 rounded-3">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-12 col-md-5">
+                <label class="form-label">
+                    <i class="bi bi-search me-1 text-neon-cyan"></i>Arama
+                </label>
+                <input name="q" value="@q" class="form-control" placeholder="Örn: Valorant, LoL, CS..." />
+            </div>
+            <div class="col-12 col-md-4">
+                <label class="form-label">
+                    <i class="bi bi-funnel me-1 text-neon-purple"></i>Kategori
+                </label>
+                <select name="categoryId" class="form-select">
+                    <option value="">Tümü</option>
+                    @foreach (var c in categories)
+                    {
+                        <option value="@c.Id" selected="@(selectedCategoryId == c.Id)">@c.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col-12 col-md-3 d-flex gap-2">
+                <button class="btn btn-gq w-100" type="submit">
+                    <i class="bi bi-search me-1"></i>Filtrele
+                </button>
+                <a class="btn btn-outline-light w-100" asp-action="Index">
+                    <i class="bi bi-x-circle me-1"></i>Sıfırla
+                </a>
+            </div>
+        </form>
+    </div>
+
+    @if (Model.Count == 0)
+    {
+        <div class="gq-empty text-center py-5">
+            <i class="bi bi-joystick display-1 text-neon-cyan d-block mb-3" style="opacity:.5;"></i>
+            <h5 class="text-gradient mb-2">Sonuç bulunamadı</h5>
+            <p class="text-muted">Farklı bir arama terimi veya kategori deneyin.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var game in Model)
+            {
+                <div class="col-12 col-md-6 col-lg-4 gq-animate-in">
+                    <a class="text-decoration-none" asp-action="Details" asp-route-id="@game.Id">
+                        <div class="card gq-surface gq-clickable h-100 overflow-hidden">
+                            @if (!string.IsNullOrWhiteSpace(game.ImageUrl))
+                            {
+                                <div class="gq-game-img-wrap">
+                                    <img src="@game.ImageUrl" alt="@game.Name" style="width:100%; height:200px; object-fit:cover;" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="gq-game-img-wrap d-flex align-items-center justify-content-center" style="height:200px; background: linear-gradient(135deg, rgba(0,245,255,.1), rgba(139,92,246,.1));">
+                                    <i class="bi bi-controller display-4 text-neon-cyan" style="opacity:.4;"></i>
+                                </div>
+                            }
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start gap-2">
+                                    <div>
+                                        <div class="fw-semibold text-white">@game.Name</div>
+                                        @if (game.Category != null)
+                                        {
+                                            <span class="gq-badge-purple mt-1 d-inline-block">
+                                                <i class="bi bi-tag me-1"></i>@game.Category.Name
+                                            </span>
+                                        }
+                                    </div>
+                                    <span class="gq-badge-cyan">
+                                        <i class="bi bi-arrow-right"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,100 @@
+@model List<GameQuest.Models.Advert>
+
+@{
+    ViewData["Title"] = "İlanlar";
+    var categories = ViewBag.Categories as List<GameQuest.Models.Category> ?? new();
+    var games = ViewBag.Games as List<GameQuest.Models.Game> ?? new();
+    int? selectedCategoryId = ViewBag.SelectedCategoryId as int?;
+    int? selectedGameId = ViewBag.SelectedGameId as int?;
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">İlanlar</h1>
+            <div class="text-muted">Aktif ilanlara göz at, filtrele ve başvur.</div>
+        </div>
+        @if (User?.Identity?.IsAuthenticated == true)
+        {
+            <a class="btn btn-gq" asp-action="Create">İlan Aç</a>
+        }
+        else
+        {
+            <a class="btn btn-outline-light" asp-area="Identity" asp-page="/Account/Login">Giriş yap</a>
+        }
+    </div>
+
+    <form method="get" class="row g-2 align-items-end mb-4">
+        <div class="col-12 col-md-4">
+            <label class="form-label">Kategori</label>
+            <select name="categoryId" class="form-select">
+                <option value="">Tümü</option>
+                @foreach (var c in categories)
+                {
+                    <option value="@c.Id" selected="@(selectedCategoryId == c.Id)">@c.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-5">
+            <label class="form-label">Oyun</label>
+            <select name="gameId" class="form-select">
+                <option value="">Tümü</option>
+                @foreach (var g in games)
+                {
+                    <option value="@g.Id" selected="@(selectedGameId == g.Id)">@g.Name</option>
+                }
+            </select>
+        </div>
+        <div class="col-12 col-md-3 d-flex gap-2">
+            <button class="btn btn-gq w-100" type="submit">Filtrele</button>
+            <a class="btn btn-outline-light w-100" asp-action="Index">Sıfırla</a>
+        </div>
+    </form>
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-dark border">Aktif ilan bulunamadı.</div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var a in Model)
+            {
+                <div class="col-12 col-lg-6">
+                    <a class="text-decoration-none" asp-action="Details" asp-route-id="@a.Id">
+                        <div class="card gq-surface h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start gap-2">
+                                    <div>
+                                        <div class="fw-semibold">@a.Title</div>
+                                        <div class="small text-muted">@a.Game?.Name • @a.Game?.Category?.Name</div>
+                                    </div>
+                                    <span class="badge text-bg-secondary">@a.CreatedAt.ToString("dd.MM.yyyy")</span>
+                                </div>
+
+                                <div class="mt-2 text-muted">
+                                    @if (!string.IsNullOrWhiteSpace(a.RequiredRole) || !string.IsNullOrWhiteSpace(a.RequiredRank))
+                                    {
+                                        <span>İstenen: </span>
+                                        <span class="fw-semibold">@a.RequiredRole</span>
+                                        @if (!string.IsNullOrWhiteSpace(a.RequiredRank))
+                                        {
+                                            <span> / </span><span class="fw-semibold">@a.RequiredRank</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>İstenen kriter belirtilmemiş.</span>
+                                    }
+                                </div>
+
+                                <div class="mt-2 small text-muted">İlan sahibi: <span class="fw-semibold">@a.User?.Username</span></div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+

@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<section class="gq-hero gq-animate-in">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-7 text-center text-lg-start">
+                <h1 class="gq-hero-title">
+                    <i class="bi bi-controller me-2"></i>Game<span class="text-neon-cyan">Quest</span>
+                </h1>
+                <p class="gq-hero-subtitle">
+                    Oyuncu bulma ve takım kurma platformu. İlan aç, kriter koy, doğru takım arkadaşını bul.
+                </p>
+
+                @if (User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <p class="mb-4 opacity-75">
+                        Hoş geldin. Burada amaç sadece "birini bulmak" değil; doğru ekibi, doğru zamanda, doğru beklentilerle kurmak.
+                        Ne oynadığını, ne istediğini ve nasıl bir takım arkadaşı aradığını netleştirdiğinde, gerisi zaten hızla akıyor.
+                        Küçük bir ilan bile büyük bir maceranın başlangıcı olabilir: bir duo, bir takım, belki de uzun soluklu bir ekip.
+                        Şimdi sahne senin—profilini parlat, kriterlerini belirle ve oyuna yakışır insanlarla yollarını kesiştir.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
+                        <a class="btn btn-gq btn-lg" asp-controller="Adverts" asp-action="Index">
+                            <i class="bi bi-megaphone me-2"></i>İlanlara Göz At
+                        </a>
+                        <a class="btn btn-outline-light btn-lg" asp-controller="Profile" asp-action="Index">
+                            <i class="bi bi-person-badge me-2"></i>Profilim
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start flex-wrap">
+                        <a class="btn btn-gq btn-lg" asp-area="Identity" asp-page="/Account/Register">
+                            <i class="bi bi-lightning-charge me-2"></i>Hemen Kayıt Ol
+                        </a>
+                        <a class="btn btn-outline-light btn-lg" asp-area="Identity" asp-page="/Account/Login">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Giriş Yap
+                        </a>
+                    </div>
+                }
+            </div>
+
+            <div class="col-lg-5">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="gq-feature-card gq-animate-in gq-clickable text-center p-4">
+                            <div class="gq-feature-icon text-neon-cyan">
+                                <i class="bi bi-megaphone"></i>
+                            </div>
+                            <h6 class="fw-bold mt-3 mb-2">İlanlar</h6>
+                            <small class="opacity-75">İlan aç, kriter koy, takım arkadaşı bul.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="gq-feature-card gq-animate-in gq-clickable text-center p-4">
+                            <div class="gq-feature-icon text-neon-purple">
+                                <i class="bi bi-joystick"></i>
+                            </div>
+                            <h6 class="fw-bold mt-3 mb-2">Oyunlar</h6>
+                            <small class="opacity-75">Favori oyunlarını profiline ekle.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="gq-feature-card gq-animate-in gq-clickable text-center p-4">
+                            <div class="gq-feature-icon text-neon-cyan">
+                                <i class="bi bi-send-check"></i>
+                            </div>
+                            <h6 class="fw-bold mt-3 mb-2">Başvurular</h6>
+                            <small class="opacity-75">Başvurularını takip et.</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="gq-feature-card gq-animate-in gq-clickable text-center p-4">
+                            <div class="gq-feature-icon text-neon-purple">
+                                <i class="bi bi-person-badge"></i>
+                            </div>
+                            <h6 class="fw-bold mt-3 mb-2">Profil</h6>
+                            <small class="opacity-75">Oyun profilini oluştur.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,92 @@
+@model GameQuest.Models.Game
+
+@{
+    ViewData["Title"] = Model.Name;
+    var adverts = Model.Adverts?.OrderByDescending(a => a.CreatedAt).ToList() ?? new();
+}
+
+<div class="py-4">
+    <!-- Page Header -->
+    <div class="gq-page-header mb-4">
+        <div class="d-flex align-items-start justify-content-between gap-3">
+            <div>
+                @if (Model.Category != null)
+                {
+                    <span class="gq-badge-purple mb-2 d-inline-block">
+                        <i class="bi bi-tag me-1"></i>@Model.Category.Name
+                    </span>
+                }
+                <h1 class="gq-page-title">
+                    <i class="bi bi-controller me-2 text-neon-cyan"></i>@Model.Name
+                </h1>
+                <p class="gq-page-subtitle">Bu oyuna ait aktif ilanları aşağıda görebilirsin.</p>
+            </div>
+            <a class="btn btn-outline-light" asp-action="Index">
+                <i class="bi bi-arrow-left me-1"></i>Geri
+            </a>
+        </div>
+    </div>
+
+    <!-- Game Image -->
+    @if (!string.IsNullOrWhiteSpace(Model.ImageUrl))
+    {
+        <div class="gq-animate-in mb-4">
+            <div class="gq-game-img-wrap rounded-3 overflow-hidden">
+                <img src="@Model.ImageUrl" alt="@Model.Name" style="width: 100%; max-height: 360px; object-fit: cover;" />
+            </div>
+        </div>
+    }
+
+    <!-- Adverts Section -->
+    <div class="card gq-surface gq-animate-in">
+        <div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom" style="border-color: rgba(255,255,255,.1) !important;">
+            <div class="fw-semibold text-white">
+                <i class="bi bi-megaphone me-2 text-neon-cyan"></i>Aktif İlanlar
+            </div>
+            <span class="gq-badge-cyan">@adverts.Count ilan</span>
+        </div>
+        <div class="card-body">
+            @if (adverts.Count == 0)
+            {
+                <div class="gq-empty text-center py-4">
+                    <i class="bi bi-inbox display-4 text-neon-purple d-block mb-3" style="opacity:.4;"></i>
+                    <h6 class="text-gradient mb-1">Henüz ilan yok</h6>
+                    <p class="text-muted small mb-0">Şu an bu oyuna ait aktif ilan bulunmuyor.</p>
+                </div>
+            }
+            else
+            {
+                <div class="list-group list-group-flush">
+                    @foreach (var a in adverts)
+                    {
+                        <div class="list-group-item bg-transparent border-bottom" style="border-color: rgba(255,255,255,.08) !important;">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <div>
+                                    <div class="fw-semibold text-white">
+                                        <i class="bi bi-chat-dots me-1 text-neon-cyan"></i>@a.Title
+                                    </div>
+                                    <div class="small text-muted mt-1">
+                                        <i class="bi bi-person me-1"></i>@a.User?.Username
+                                        @if (!string.IsNullOrWhiteSpace(a.RequiredRole) || !string.IsNullOrWhiteSpace(a.RequiredRank))
+                                        {
+                                            <span>—</span>
+                                            <span>@a.RequiredRole</span>
+                                            @if (!string.IsNullOrWhiteSpace(a.RequiredRank))
+                                            {
+                                                <span> / @a.RequiredRank</span>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <span class="gq-badge-purple">
+                                    <i class="bi bi-calendar me-1"></i>@a.CreatedAt.ToString("dd.MM.yyyy")
+                                </span>
+                            </div>
+                            <div class="text-muted small">@a.Description</div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

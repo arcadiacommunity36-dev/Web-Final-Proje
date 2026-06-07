@@ -1,0 +1,100 @@
+@model List<GameQuest.Models.Application>
+
+@{
+    ViewData["Title"] = "Gelen Başvurular";
+    string StatusText(byte s) => s switch
+    {
+        1 => "Kabul edildi",
+        2 => "Reddedildi",
+        _ => "Beklemede"
+    };
+    string StatusBadgeClass(byte s) => s switch
+    {
+        1 => "bg-success",
+        2 => "bg-danger",
+        _ => "bg-secondary"
+    };
+}
+
+<div class="py-4">
+    <!-- Page Header -->
+    <div class="gq-page-header gq-animate-in">
+        <div>
+            <h1 class="gq-page-title">
+                <i class="bi bi-inbox text-neon-purple me-2"></i>Gelen Başvurular
+            </h1>
+            <p class="gq-page-subtitle">İlanlarına gelen başvuruların listesi.</p>
+        </div>
+        <a class="btn btn-gq" asp-controller="Adverts" asp-action="Create">
+            <i class="bi bi-plus-circle me-1"></i>Yeni ilan aç
+        </a>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card gq-surface gq-animate-in">
+        <div class="card-body">
+            @if (Model.Count == 0)
+            {
+                <div class="gq-empty">
+                    <i class="bi bi-inbox display-1 text-neon-purple mb-3"></i>
+                    <h5 class="text-light mb-2">Henüz başvuru yok</h5>
+                    <p class="text-muted mb-3">Henüz ilanlarına gelen başvuru yok.</p>
+                    <a class="btn btn-gq" asp-controller="Adverts" asp-action="Create">
+                        <i class="bi bi-plus-circle me-1"></i>Yeni ilan oluştur
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th><i class="bi bi-megaphone me-1 text-neon-cyan"></i>İlan</th>
+                                <th><i class="bi bi-joystick me-1 text-neon-purple"></i>Oyun</th>
+                                <th><i class="bi bi-person-badge me-1"></i>Başvuran</th>
+                                <th><i class="bi bi-calendar me-1"></i>Tarih</th>
+                                <th><i class="bi bi-chat-dots me-1"></i>Mesaj</th>
+                                <th><i class="bi bi-lightning-charge me-1"></i>Durum</th>
+                                <th class="text-end" style="width: 220px;">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-controller="Adverts" asp-action="Details" asp-route-id="@a.AdvertId" class="text-decoration-none text-neon-cyan">
+                                            @a.Advert?.Title
+                                        </a>
+                                    </td>
+                                    <td class="text-muted">@a.Advert?.Game?.Name</td>
+                                    <td class="text-muted">@a.Applicant?.Username</td>
+                                    <td class="text-muted">@a.AppliedAt.ToString("dd.MM.yyyy")</td>
+                                    <td class="text-muted">@(!string.IsNullOrWhiteSpace(a.Message) ? a.Message : "-")</td>
+                                    <td>
+                                        <span class="badge @StatusBadgeClass(a.Status)">@StatusText(a.Status)</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <form asp-action="Accept" asp-route-id="@a.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-outline-success" disabled="@(a.Status != 0)">
+                                                <i class="bi bi-check-circle me-1"></i>Kabul et
+                                            </button>
+                                        </form>
+                                        <form asp-action="Reject" asp-route-id="@a.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" disabled="@(a.Status != 0)">
+                                                <i class="bi bi-x-circle me-1"></i>Reddet
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+</div>

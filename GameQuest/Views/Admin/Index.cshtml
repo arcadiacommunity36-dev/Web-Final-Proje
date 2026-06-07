@@ -1,0 +1,82 @@
+@{
+    ViewData["Title"] = "Yönetim";
+}
+
+<div class="py-4">
+    <!-- Page Header -->
+    <div class="gq-page-header gq-animate-in">
+        <div>
+            <h1 class="gq-page-title">
+                <i class="bi bi-shield-lock text-neon-cyan me-2"></i>Admin Paneli
+            </h1>
+            <p class="gq-page-subtitle">Oyun, kategori ve genel istatistikler.</p>
+        </div>
+        <a class="btn btn-outline-light" asp-controller="Home" asp-action="Index">
+            <i class="bi bi-house-door me-1"></i>Siteye dön
+        </a>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-lg">
+            <div class="gq-stat-card gq-animate-in">
+                <div class="gq-stat-icon text-neon-cyan">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="gq-stat-label">Kullanıcı</div>
+                <div class="gq-stat-value text-gradient">@ViewBag.UsersCount</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg">
+            <div class="gq-stat-card gq-animate-in">
+                <div class="gq-stat-icon text-neon-purple">
+                    <i class="bi bi-joystick"></i>
+                </div>
+                <div class="gq-stat-label">Oyun</div>
+                <div class="gq-stat-value text-gradient">@ViewBag.GamesCount</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg">
+            <div class="gq-stat-card gq-animate-in">
+                <div class="gq-stat-icon text-neon-cyan">
+                    <i class="bi bi-grid"></i>
+                </div>
+                <div class="gq-stat-label">Kategori</div>
+                <div class="gq-stat-value text-gradient">@ViewBag.CategoriesCount</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg">
+            <div class="gq-stat-card gq-animate-in">
+                <div class="gq-stat-icon text-neon-purple">
+                    <i class="bi bi-megaphone"></i>
+                </div>
+                <div class="gq-stat-label">İlan</div>
+                <div class="gq-stat-value text-gradient">@ViewBag.AdvertsCount</div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-lg">
+            <div class="gq-stat-card gq-animate-in">
+                <div class="gq-stat-icon text-neon-cyan">
+                    <i class="bi bi-send-check"></i>
+                </div>
+                <div class="gq-stat-label">Başvuru</div>
+                <div class="gq-stat-value text-gradient">@ViewBag.ApplicationsCount</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="card gq-surface gq-animate-in">
+        <div class="card-body">
+            <h5 class="text-light mb-3"><i class="bi bi-lightning-charge text-neon-cyan me-2"></i>Hızlı İşlemler</h5>
+            <div class="d-flex flex-wrap gap-2">
+                <a class="btn btn-gq" asp-action="Games">
+                    <i class="bi bi-joystick me-1"></i>Oyunları yönet
+                </a>
+                <a class="btn btn-outline-light" asp-action="Categories">
+                    <i class="bi bi-grid me-1"></i>Kategorileri yönet
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

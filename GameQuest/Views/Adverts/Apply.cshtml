@@ -1,0 +1,40 @@
+@model GameQuest.ViewModels.ApplicationCreateViewModel
+
+@{
+    ViewData["Title"] = "Başvur";
+    var advert = ViewBag.Advert as GameQuest.Models.Advert;
+}
+
+<div class="py-4">
+    <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+        <div>
+            <h1 class="h3 mb-1">Başvur</h1>
+            <div class="text-muted">@advert?.Game?.Name • @advert?.Title</div>
+        </div>
+        <a class="btn btn-outline-light" asp-action="Details" asp-route-id="@advert?.Id">Geri</a>
+    </div>
+
+    <div class="card gq-surface">
+        <div class="card-body">
+            <form method="post" class="row g-3">
+                @Html.AntiForgeryToken()
+
+                <div class="col-12">
+                    <label asp-for="Message" class="form-label"></label>
+                    <textarea asp-for="Message" class="form-control" rows="4" placeholder="Kısaca kendini tanıt, uygunluk durumunu yaz..."></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
+                </div>
+
+                <div class="col-12 d-flex gap-2">
+                    <button class="btn btn-gq" type="submit">Gönder</button>
+                    <a class="btn btn-outline-light" asp-action="Details" asp-route-id="@advert?.Id">İptal</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
